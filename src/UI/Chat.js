@@ -14,11 +14,10 @@ export class Chat extends React.Component {
         super(props);
     };
 
-    state = {messages: [{body: 'body message'}]};
+    state = {messages: []};
     socket=null
     componentDidMount() {
         var baseUrl = 'social-network.samuraijs.com';
-
         this.socket = new WebSocket("wss://" + baseUrl + "/handlers/ChatHandler.ashx")
         this.socket.onmessage = this.onMessage.bind(this)
 
@@ -44,13 +43,13 @@ export class Chat extends React.Component {
         return <div>
             <h3>CHAT</h3>
             <div style={chatStyle}>
-                {this.state.messages.map(m => <div style={{
-                    padding: '10px', border: '1px solid black'}}><img style={{float:'left'}} src={m.photo}/>
-                    <div style={{float:'left'}}>{m.userName}</div>{m.message}</div>)}
+                {this.state.messages.map(m => <div key={m.userId} style={{
+                    padding: '10px', border: '1px solid black'}}><div style={{float: 'left', width:'100px', height:'100px', border: '1px solid black' }}><img  src={m.photo}/></div>
+                    <div style={{float:'left', color:'red'}}>{m.userName}</div >
+                    <div style={{float:'right'}}>{m.message}</div></div>)}
             </div>
             <div style={{padding: '10px'}}>
-                <textarea onKeyPress={this.onKeyPress.bind(this)}></textarea>
-
+                <textarea placeholder={'введите текст сообщения'} onKeyPress={this.onKeyPress.bind(this)}></textarea>
             </div>
 
         </div>
